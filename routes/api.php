@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\FollowController;
+use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProgramController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserController;
@@ -32,4 +34,5 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/programs', [ProgramController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/messages', [MessageController::class, 'show'])->middleware('auth:sanctum');
 

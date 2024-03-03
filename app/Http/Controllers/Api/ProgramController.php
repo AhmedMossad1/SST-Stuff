@@ -12,13 +12,15 @@ class ProgramController extends Controller
 {
     public function show(){
         $programs = Program::where('user_id',auth()->id())->get();
+        $total = $programs->sum('programs');
         $target = auth()->user()->section->programs_target;
+        $percentage= (100-$total)/100;
         return response()->json([
             'data' => [
+                'percentage'=>$percentage,
                 'target' => $target,
                 'programs' => ProgramResource::collection($programs),
             ],
-
     ]);
     }
 
