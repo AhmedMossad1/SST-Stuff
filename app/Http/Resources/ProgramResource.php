@@ -6,9 +6,12 @@ class ProgramResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $target = $this->user->section->programs_target;
+        $total = $this->programs;
+        $points= $total-$target;
         return [
-            //'target'=>$this->user->section->programs_target,
             'programs'=>$this->programs,
+            'points'=>$points,
             'date'=>$this->date,
         ];
     }
