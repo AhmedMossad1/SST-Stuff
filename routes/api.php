@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\FollowController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProgramController;
@@ -35,4 +36,5 @@ Route::post('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/programs', [ProgramController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/messages', [MessageController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/attend', [AttendanceController::class, 'show'])->middleware('auth:sanctum');
 
