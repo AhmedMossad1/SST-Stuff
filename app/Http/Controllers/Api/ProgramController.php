@@ -15,7 +15,12 @@ class ProgramController extends Controller
                 $negativePointsSum += $points;
             }
         }
-        $percentage= (100-abs($negativePointsSum))/100;
+         if($negativePointsSum<0){
+            $percentage= (100-abs($negativePointsSum))/100;
+             }
+            else{
+                $percentage=0;
+            }
         return response()->json([
             'data' => [
                 'percentage'=>$percentage,
