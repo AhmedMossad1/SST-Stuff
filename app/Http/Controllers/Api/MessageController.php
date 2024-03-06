@@ -5,7 +5,7 @@ use App\Http\Resources\MessageResource;
 use App\Models\Message;
 class MessageController extends Controller
 {
-    public function show(){
+    public function index(){
         $messages = Message::where('user_id',auth()->id())->get();
         $target = auth()->user()->section->follow_up_target;
         $negativePointsSum = 0;

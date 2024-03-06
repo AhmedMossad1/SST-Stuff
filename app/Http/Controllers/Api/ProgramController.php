@@ -5,7 +5,7 @@ use App\Http\Resources\ProgramResource;
 use App\Models\Program;
 class ProgramController extends Controller
 {
-    public function show(){
+    public function index(){
         $programs = Program::where('user_id',auth()->id())->get();
         $target = auth()->user()->section->programs_target;
         $negativePointsSum = 0;

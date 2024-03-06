@@ -35,8 +35,12 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::post('/users/{id}', [UserController::class, 'update']);
 Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::get('/programs', [ProgramController::class, 'show'])->middleware('auth:sanctum');
-Route::get('/messages', [MessageController::class, 'show'])->middleware('auth:sanctum');
-Route::get('/attend', [AttendanceController::class, 'show'])->middleware('auth:sanctum');
-Route::get('/errors', [ErrorsController::class,'show'])->middleware('auth:sanctum');
-
+Route::group(
+    [
+        'middleware' => 'auth:sanctum'
+    ], function () {
+        Route::get('/programs', [ProgramController::class, 'index']);
+        Route::get('/messages', [MessageController::class, 'index']);
+        Route::get('/attend', [AttendanceController::class, 'index']);
+        Route::get('/errors', [ErrorsController::class,'index']);
+});
