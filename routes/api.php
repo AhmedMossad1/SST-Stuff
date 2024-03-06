@@ -1,13 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\AttendanceController;
-use App\Http\Controllers\Api\FollowController;
+use App\Http\Controllers\Api\ErrorsController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProgramController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,5 @@ Route::delete('/users/{id}', [UserController::class, 'destroy']);
 Route::get('/programs', [ProgramController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/messages', [MessageController::class, 'show'])->middleware('auth:sanctum');
 Route::get('/attend', [AttendanceController::class, 'show'])->middleware('auth:sanctum');
+Route::get('/errors', [ErrorsController::class,'show'])->middleware('auth:sanctum');
 
