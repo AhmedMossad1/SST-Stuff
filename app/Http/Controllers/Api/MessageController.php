@@ -3,10 +3,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
+use Carbon\Carbon;
+
 class MessageController extends Controller
 {
     public function index(){
-        $messages = Message::where('user_id',auth()->id())->get();
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $messages = Message::where('user_id', auth()->id())
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->get();
         $target = auth()->user()->section->follow_up_target;
         $negativePointsSum = 0;
         foreach ($messages as $message) {
