@@ -42,7 +42,7 @@ class AttendanceService
     private function hasVacationAccept($attendances)
     {
         foreach ($attendances as $attendance) {
-            if (strpos($attendance->asked_Note, 'اجازة') !== false && strpos($attendance->asked_Note, 'accept') !== false) {
+            if (strpos($attendance->asked_Note, 'اجازه') !== false && strpos($attendance->asked_Note, 'accept') !== false) {
                 return true;
             }
         }

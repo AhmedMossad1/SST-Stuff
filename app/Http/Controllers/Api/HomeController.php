@@ -4,18 +4,21 @@ use App\Http\Controllers\Controller;
 use App\Services\MessageService;
 use App\Services\ProgramService;
 use App\Services\AttendanceService;
+use App\Services\ErrorsService;
 
 class HomeController extends Controller
 {
     protected $programService;
     protected $messageService;
     protected $attendanceService;
+    protected $errorsService;
 
-    public function __construct(ProgramService $programService,MessageService $messageService,AttendanceService $attendanceService)
+    public function __construct(ProgramService $programService,MessageService $messageService,AttendanceService $attendanceService,ErrorsService $errorsService)
     {
         $this->programService = $programService;
         $this->messageService = $messageService;
         $this->attendanceService = $attendanceService;
+        $this->errorsService = $errorsService;
     }
 
     public function index()
@@ -26,12 +29,13 @@ class HomeController extends Controller
         $messagePercentage = $this->messageService->calculateMessagePercentage($user);
         $productivity = max($programsPercentage,$messagePercentage);
         $attendanceService = $this->attendanceService->calculatePointsForUser($userId);
-
+        $errorsService = $this->errorsService->calculateErrorsPercentage($userId);
 
         return response()->json([
             'data' => [
                 'productivity percentage' => $productivity,
                 'attend percentage' => $attendanceService,
+                'errors percentage' => $errorsService,
 
             ],
         ]);
