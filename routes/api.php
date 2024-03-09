@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AttendanceController;
 use App\Http\Controllers\Api\ErrorsController;
+use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProgramController;
 use App\Http\Controllers\Api\UserAuthController;
@@ -43,4 +44,5 @@ Route::group(
         Route::get('/messages', [MessageController::class, 'index']);
         Route::get('/attend', [AttendanceController::class, 'index']);
         Route::get('/errors', [ErrorsController::class,'index']);
+        Route::get('/home', [HomeController::class,'index']);
 });
