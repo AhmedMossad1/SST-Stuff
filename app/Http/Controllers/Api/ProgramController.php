@@ -1,44 +1,30 @@
 <?php
-
 namespace App\Http\Controllers\Api;
-
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProgramResource;
-use App\Models\Program;
-use Carbon\Carbon;
+use App\Services\ProgramService;
 
 class ProgramController extends Controller
 {
+    protected $programService;
+
+    public function __construct(ProgramService $programService)
+    {
+        $this->programService = $programService;
+    }
+
     public function index()
     {
-        $currentMonth = Carbon::now()->format('Y-m');
-
-        $programs = Program::where('user_id', auth()->id())
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-            ->get();
-
-        $target = auth()->user()->section->programs_target;
-        $negativePointsSum = 0;
-
-        foreach ($programs as $program) {
-            $points = $program->programs - $target;
-            if ($points < 0) {
-                $negativePointsSum += $points;
-            }
-        }
-
-        if ($negativePointsSum < 0) {
-            $percentage = (100 - abs($negativePointsSum)) / 100;
-        } else {
-            $percentage = 0;
-        }
+        $user = auth()->user();
+        $percentage = $this->programService->calculateProgramPercentage($user);
 
         return response()->json([
             'data' => [
                 'percentage' => $percentage,
-                'target' => $target,
-                'programs' => ProgramResource::collection($programs),
+                'target' => $user->section->programs_target,
+                'programs' => ProgramResource::collection($this->programService->getProgramsForCurrentMonth($user)),
             ],
         ]);
     }
+
 }
