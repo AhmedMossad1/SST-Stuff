@@ -42,11 +42,14 @@ class HomeController extends Controller
 
         return response()->json([
             'data' => [
-                'productivity_percentage' => $productivity,
-                'attend_percentage' => $attendanceService,
-                'errors_percentage' => $errorsService,
+                'percentage' => [
+                'productivity' => $productivity,
+                'attend' => $attendanceService,
+                'errors' => $errorsService,
                 'final_percentage' => $finalPercentage,
                 'final_grade' => $finalGrade,
+                ],
+
             ],
         ]);
     }
