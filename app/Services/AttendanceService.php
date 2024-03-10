@@ -5,9 +5,18 @@ use App\Models\Attendance;
 
 class AttendanceService
 {
+    public function getAttendForCurrentMonth($user)
+    {
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        return Attendance::where('user_id', $user->id)
+            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
+            ->get();
+    }
+
     public function calculatePointsForUser($userId)
     {
-        $attendances = Attendance::where('user_id', $userId)->get();
+        $attendances = $this->getAttendForCurrentMonth($userId);
         $totalDelayHours = $this->calculateTotalDelayHours($attendances);
         $hasVacationAccept = $this->hasVacationAccept($attendances);
         $hasAbsenceNotAccept = $this->hasAbsenceNotAccept($attendances);
@@ -22,7 +31,7 @@ class AttendanceService
             $totalPoints = max(0, $totalPoints - 50);
         }
 
-        return $totalPoints / 100;
+        return $totalPoints;
     }
 
     private function calculateTotalDelayHours($attendances)
@@ -60,4 +69,5 @@ class AttendanceService
 
         return false;
     }
+
 }

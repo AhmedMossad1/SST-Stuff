@@ -28,7 +28,7 @@ class HomeController extends Controller
         $programsPercentage = $this->programService->calculateProgramPercentage($user);
         $messagePercentage = $this->messageService->calculateMessagePercentage($user);
         $productivity = max($programsPercentage,$messagePercentage);
-        $attendanceService = $this->attendanceService->calculatePointsForUser($userId);
+        $attendanceService = $this->attendanceService->calculatePointsForUser($user);
         $errorsService = $this->errorsService->calculateErrorsPercentage($userId);
 
         return response()->json([
