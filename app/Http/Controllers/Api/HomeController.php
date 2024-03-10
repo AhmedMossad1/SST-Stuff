@@ -13,7 +13,12 @@ class HomeController extends Controller
     protected $attendanceService;
     protected $errorsService;
 
-    public function __construct(ProgramService $programService,MessageService $messageService,AttendanceService $attendanceService,ErrorsService $errorsService)
+    public function __construct(
+        ProgramService $programService,
+        MessageService $messageService,
+        AttendanceService $attendanceService,
+        ErrorsService $errorsService
+    )
     {
         $this->programService = $programService;
         $this->messageService = $messageService;
@@ -24,21 +29,43 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $userId = auth()->id();
+
         $programsPercentage = $this->programService->calculateProgramPercentage($user);
         $messagePercentage = $this->messageService->calculateMessagePercentage($user);
-        $productivity = max($programsPercentage,$messagePercentage);
+
+        $productivity = max($programsPercentage, $messagePercentage);
         $attendanceService = $this->attendanceService->calculatePointsForUser($user);
-        $errorsService = $this->errorsService->calculateErrorsPercentage($userId);
+        $errorsService = $this->errorsService->calculateErrorsPercentage(auth()->id());
+
+        $finalPercentage = $this->calculateFinalPercentage($productivity, $attendanceService, $errorsService);
+        $finalGrade = $this->getGrade($finalPercentage);
 
         return response()->json([
             'data' => [
-                'productivity percentage' => $productivity,
-                'attend percentage' => $attendanceService,
-                'errors percentage' => $errorsService,
-
+                'productivity_percentage' => $productivity,
+                'attend_percentage' => $attendanceService,
+                'errors_percentage' => $errorsService,
+                'final_percentage' => $finalPercentage,
+                'final_grade' => $finalGrade,
             ],
         ]);
     }
-
+    private function calculateFinalPercentage($productivity, $attendanceService, $errorsService)
+    {
+        return (($productivity * 30) + ($attendanceService * 50) + ($errorsService * 20)) / 100;
+    }
+    private function getGrade($finalPercentage)
+    {
+        if ($finalPercentage >= 90) {
+            return 'A';
+        } elseif ($finalPercentage >= 80) {
+            return 'B';
+        } elseif ($finalPercentage >= 70) {
+            return 'C';
+        } elseif ($finalPercentage >= 60) {
+            return 'D';
+        } else {
+            return 'F';
+        }
+    }
 }
