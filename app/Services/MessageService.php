@@ -15,7 +15,7 @@ class MessageService
                 $negativePointsSum += $points;
             }
         }
-        return ($negativePointsSum < 0) ? (100 - abs($negativePointsSum)) / 100 : 0;
+        return ($negativePointsSum < 0) ? (100 - abs($negativePointsSum))  : 0;
     }
 
     public function getMessageForCurrentMonth($user)

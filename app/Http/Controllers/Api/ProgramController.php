@@ -16,12 +16,12 @@ class ProgramController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $percentage = $this->programService->calculateProgramPercentage($user);
+        $percentage =(string)$this->programService->calculateProgramPercentage($user);
 
         return response()->json([
             'data' => [
                 'percentage' => $percentage,
-                'target' => $user->section->programs_target,
+                'target' =>(string) $user->section->programs_target,
                 'programs' => ProgramResource::collection($this->programService->getProgramsForCurrentMonth($user)),
             ],
         ]);

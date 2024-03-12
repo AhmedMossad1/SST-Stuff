@@ -17,7 +17,7 @@ class ErrorsController extends Controller
     public function index(){
         {
             $userId = auth()->id();
-            $percentage = $this->errorsService->calculateErrorsPercentage($userId);
+            $percentage = (string) $this->errorsService->calculateErrorsPercentage($userId);
             $errors = $this->errorsService->getErrorsForCurrentMonth($userId);
 
             return response()->json([

@@ -14,7 +14,7 @@ class ErrorsResource extends JsonResource
             'date'=>$this->date,
             'code'=>$this->code,
             'note'=>$this->note,
-            'degree'=>$this->degree,
+            'degree'=> (string) $this->degree,
             'state'=>$this->state,
             'solved'=>$this->solved,
             'location'=>$this->location,

@@ -33,11 +33,11 @@ class HomeController extends Controller
         $programsPercentage = $this->programService->calculateProgramPercentage($user);
         $messagePercentage = $this->messageService->calculateMessagePercentage($user);
 
-        $productivity = max($programsPercentage, $messagePercentage);
-        $attendanceService = $this->attendanceService->calculatePointsForUser($user);
-        $errorsService = $this->errorsService->calculateErrorsPercentage(auth()->id());
+        $productivity = (string) max($programsPercentage, $messagePercentage);
+        $attendanceService = (string) $this->attendanceService->calculatePointsForUser($user);
+        $errorsService = (string) $this->errorsService->calculateErrorsPercentage(auth()->id());
 
-        $finalPercentage = $this->calculateFinalPercentage($productivity, $attendanceService, $errorsService);
+        $finalPercentage =  (string) $this->calculateFinalPercentage($productivity, $attendanceService, $errorsService);
         $finalGrade = $this->getGrade($finalPercentage);
 
         return response()->json([

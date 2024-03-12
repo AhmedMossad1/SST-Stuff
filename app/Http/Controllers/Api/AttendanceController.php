@@ -13,7 +13,7 @@ class AttendanceController extends Controller
     }
     public function index(){
         $user = auth()->user();
-        $totalPoints = $this->attendanceService->calculatePointsForUser($user);
+        $totalPoints = (string) $this->attendanceService->calculatePointsForUser($user);
         return response()->json([
             'data' => [
                 'percentage' => $totalPoints,

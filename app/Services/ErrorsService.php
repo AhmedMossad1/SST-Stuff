@@ -19,6 +19,6 @@ class ErrorsService
         $currentMonthErrors = $this->getErrorsForCurrentMonth($userId);
         $total = $currentMonthErrors->sum('degree');
 
-        return ($total <= 100) ? (100 - $total) / 100 : 0;
+        return ($total <= 100) ? (100 - $total)  : 0;
     }
 }

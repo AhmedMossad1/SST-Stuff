@@ -10,8 +10,8 @@ class MessageResource extends JsonResource
         $total = $this->messages;
         $points= $total-$target;
         return [
-            'messages'=>$this->messages,
-            'points'=>$points,
+            'messages'=>(string)$this->messages,
+            'points'=>(string)$points,
             'date'=>$this->date,
         ];
     }

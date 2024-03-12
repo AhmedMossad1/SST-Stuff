@@ -10,8 +10,8 @@ class ProgramResource extends JsonResource
         $total = $this->programs;
         $points= $total-$target;
         return [
-            'programs'=>$this->programs,
-            'points'=>$points,
+            'programs'=>(string)$this->programs,
+            'points'=>(string)$points,
             'date'=>$this->date,
         ];
     }

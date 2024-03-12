@@ -17,12 +17,12 @@ class MessageController extends Controller{
     public function index()
     {
         $user = auth()->user();
-        $percentage = $this->messageService->calculateMessagePercentage($user);
+        $percentage = (string)$this->messageService->calculateMessagePercentage($user);
 
         return response()->json([
             'data' => [
                 'percentage' => $percentage,
-                'target' => $user->section->follow_up_target,
+                'target' =>(string) $user->section->follow_up_target,
                 'programs' => MessageResource::collection($this->messageService->getMessageForCurrentMonth($user)),
             ],
         ]);
