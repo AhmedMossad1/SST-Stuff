@@ -23,7 +23,7 @@ class MessageController extends Controller{
             'data' => [
                 'percentage' => $percentage,
                 'target' =>(string) $user->section->follow_up_target,
-                'programs' => MessageResource::collection($this->messageService->getMessageForCurrentMonth($user)),
+                'messages' => MessageResource::collection($this->messageService->getMessageForCurrentMonth($user)),
             ],
         ]);
     }

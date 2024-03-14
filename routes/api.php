@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\MessageController;
 use App\Http\Controllers\Api\ProgramController;
 use App\Http\Controllers\Api\UserAuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ProductivityController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +42,7 @@ Route::group(
     [
         'middleware' => 'auth:sanctum'
     ], function () {
+        Route::get('/productivity', [ProductivityController::class, 'index']);
         Route::get('/programs', [ProgramController::class, 'index']);
         Route::get('/messages', [MessageController::class, 'index']);
         Route::get('/attend', [AttendanceController::class, 'index']);

@@ -9,8 +9,8 @@ class MessageService
     {
         $negativePointsSum = 0;
 
-        foreach ($this->getMessageForCurrentMonth($user) as $program) {
-            $points = $program->programs - $user->section->programs_target;
+        foreach ($this->getMessageForCurrentMonth($user) as $messages) {
+            $points = $messages->messages - $user->section->follow_up_target;
             if ($points < 0) {
                 $negativePointsSum += $points;
             }
