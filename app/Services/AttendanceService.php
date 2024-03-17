@@ -2,21 +2,13 @@
 namespace App\Services;
 use Carbon\Carbon;
 use App\Models\Attendance;
-
+use function getDataForCurrentMonth;
 class AttendanceService
 {
-    public function getAttendForCurrentMonth($user)
-    {
-        $currentMonth = Carbon::now()->format('Y-m');
-
-        return Attendance::where('user_id', $user->id)
-            ->whereRaw("DATE_FORMAT(date, '%Y-%m') = ?", [$currentMonth])
-            ->get();
-    }
 
     public function calculatePointsForUser($userId)
     {
-        $attendances = $this->getAttendForCurrentMonth($userId);
+        $attendances = getDataForCurrentMonth($userId,Attendance::class);
         $totalDelayHours = $this->calculateTotalDelayHours($attendances);
         $hasVacationAccept = $this->hasVacationAccept($attendances);
         $hasAbsenceNotAccept = $this->hasAbsenceNotAccept($attendances);

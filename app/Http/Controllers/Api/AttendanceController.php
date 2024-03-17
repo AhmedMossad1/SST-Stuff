@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AttendanceResource;
+use App\Models\Attendance;
 use App\Services\AttendanceService;
 class AttendanceController extends Controller
 {
@@ -17,7 +18,7 @@ class AttendanceController extends Controller
         return response()->json([
             'data' => [
                 'percentage' => $totalPoints,
-                'Attendnce' => AttendanceResource::collection($this->attendanceService->getAttendForCurrentMonth($user)),
+                'Attendnce' => AttendanceResource::collection(getDataForCurrentMonth($user,Attendance::class)),
             ],
     ]);
     }

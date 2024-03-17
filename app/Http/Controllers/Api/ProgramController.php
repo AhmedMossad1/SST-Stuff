@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProgramResource;
+use App\Models\Program;
 use App\Services\ProgramService;
 
 class ProgramController extends Controller
@@ -22,7 +23,7 @@ class ProgramController extends Controller
             'data' => [
                 'percentage' => $percentage,
                 'target' =>(string) $user->section->programs_target,
-                'programs' => ProgramResource::collection($this->programService->getProgramsForCurrentMonth($user)),
+                'programs' => ProgramResource::collection(getDataForCurrentMonth($user,Program::class)),
             ],
         ]);
     }

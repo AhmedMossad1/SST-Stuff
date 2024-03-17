@@ -4,7 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
 use App\Services\MessageService;
-use Carbon\Carbon;
+
 
 class MessageController extends Controller{
     protected $messageService;
@@ -23,7 +23,7 @@ class MessageController extends Controller{
             'data' => [
                 'percentage' => $percentage,
                 'target' =>(string) $user->section->follow_up_target,
-                'messages' => MessageResource::collection($this->messageService->getMessageForCurrentMonth($user)),
+                'messages' => MessageResource::collection(getDataForCurrentMonth($user,Message::class)),
             ],
         ]);
     }

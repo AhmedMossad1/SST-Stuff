@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProgramResource;
 use App\Http\Resources\MessageResource;
+use App\Models\Message;
+use App\Models\Program;
 use App\Services\ProgramService;
 use App\Services\MessageService;
 
@@ -30,8 +32,8 @@ class ProductivityController extends Controller
             'data' => [
                 'percentage' => (string)$maxPercentage,
                 'target' => (string)$target,
-                'programs' => ProgramResource::collection($this->programService->getProgramsForCurrentMonth($user)),
-                'messages' => MessageResource::collection($this->messageService->getMessageForCurrentMonth($user)),
+                'programs' => ProgramResource::collection(getDataForCurrentMonth($user,Program::class)),
+                'messages' => MessageResource::collection(getDataForCurrentMonth($user,Message::class)),
             ],
         ]);
     }

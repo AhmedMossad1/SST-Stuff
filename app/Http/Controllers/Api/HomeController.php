@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\MessageService;
 use App\Services\ProgramService;
 use App\Services\AttendanceService;
@@ -35,10 +36,45 @@ class HomeController extends Controller
 
         $productivity = (string) max($programsPercentage, $messagePercentage);
         $attendanceService = (string) $this->attendanceService->calculatePointsForUser($user);
-        $errorsService = (string) $this->errorsService->calculateErrorsPercentage(auth()->id());
+        $errorsService = (string) $this->errorsService->calculateErrorsPercentage($user);
 
         $finalPercentage =  (string) $this->calculateFinalPercentage($productivity, $attendanceService, $errorsService);
         $finalGrade = $this->getGrade($finalPercentage);
+
+    //         // Fetch all users
+    //         $users = User::all();
+    //         // Calculate and store final_percentage for each user
+    //         foreach ($users as $otherUser) {
+    //             $otherProgramsPercentage = $this->programService->calculateProgramPercentage($otherUser);
+    //             $otherMessagePercentage = $this->messageService->calculateMessagePercentage($otherUser);
+    //             $otherProductivity = max($otherProgramsPercentage, $otherMessagePercentage);
+    //             $otherAttendanceService = $this->attendanceService->calculatePointsForUser($otherUser);
+    //             $otherErrorsService = $this->errorsService->calculateErrorsPercentage($otherUser->id);
+    //             $otherUser->final_percentage = $this->calculateFinalPercentage($otherProductivity, $otherAttendanceService, $otherErrorsService);
+    //         }
+
+    //         // Sort users based on final_percentage
+    //         $sortedUsers = $users->sortByDesc('final_percentage');
+
+    //         // Determine user's rank
+    //         $userRank = $sortedUsers->search(function ($otherUser) use ($user) {
+    //             return $otherUser->id === $user->id;
+    //         });
+
+    //         // If user is not in top 3, set rank to 4
+    //         if ($userRank === false || $userRank >= 3) {
+    //             $userRank = 4;
+    //         } else {
+    //             $userRank++; // Adjust rank since index starts from 0
+    //         }
+
+    //        // Get top 3 users
+    // $topThreeUsers = $sortedUsers->take(3)->map(function ($user) {
+    //     return [
+    //         'name' => $user->name,
+    //         'final_percentage' => $user->final_percentage,
+    //     ];
+    // });
 
         return response()->json([
             'data' => [
@@ -48,7 +84,9 @@ class HomeController extends Controller
                 'errors' => $errorsService,
                 'final_percentage' => $finalPercentage,
                 'final_grade' => $finalGrade,
+                //'rank' => $userRank,
                 ],
+                //'top_three_users' => $topThreeUsers,
 
             ],
         ]);
@@ -71,4 +109,6 @@ class HomeController extends Controller
             return 'F';
         }
     }
+
+
 }
