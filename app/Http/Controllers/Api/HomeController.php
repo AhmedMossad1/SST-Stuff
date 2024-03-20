@@ -79,7 +79,11 @@ class HomeController extends Controller
         return response()->json([
             'data' => [
                 'percentage' => [
-                'productivity' => $productivity,
+                'productivity_percentage' => [
+                    'productivity'=>    $productivity,
+                    'programs_target'=> (string)$user->section->programs_target,
+                    'message_target'=> (string) $user->section->follow_up_target,
+            ],
                 'attend' => $attendanceService,
                 'errors' => $errorsService,
                 'final_percentage' => $finalPercentage,
@@ -88,6 +92,8 @@ class HomeController extends Controller
                 ],
                 //'top_three_users' => $topThreeUsers,
 
+                // 'programs_target'=>  $user->section->programs_target,
+                // 'message_target'=>  $user->section->follow_up_target,
             ],
         ]);
     }
